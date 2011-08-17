@@ -202,3 +202,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from localsettings import *
+except Exception, e:
+    raise e
