@@ -1,7 +1,7 @@
 Recommended stack:
     Apache2
     mod-wsgi
-    Python 2.7
+    Python 2.6+
     PostgreSQL 8.4
     Django 1.3
     
@@ -10,13 +10,14 @@ Dependancies from aptitide:
     python-simplejson python-httplib2 python-simpletools python-twitter
 
 Dependancies from web:
-	wget http://www.djangoproject.com/download/1.3/tarball/
-	wget http://sourceforge.net/projects/dbfpy/files/dbfpy/2.2.5/dbfpy-2.2.5.tar.gz/download
+Django 1.3: 	wget http://www.djangoproject.com/download/1.3/tarball/
+dbfpy:		wget http://sourceforge.net/projects/dbfpy/files/dbfpy/2.2.5/dbfpy-2.2.5.tar.gz
     wget http://thumbnail.sorl.net/sorl-thumbnail-3.2.5.tar.gz
 	wget https://bitbucket.org/ubernostrum/django-registration/downloads/django-registration-0.8-alpha-1.tar.gz
 	wget http://django-pagination.googlecode.com/files/django-pagination-1.0.5.tar.gz
 	wget https://github.com/dcramer/django-ratings/tarball/d0ae149d112c7e5f9f40bb04028ceac4bf4b0e0d
 	wget https://github.com/simplegeo/python-oauth2/tarball/master
+pytz:	pip install pytz
 	
 
 Dependancies that require patching:
@@ -58,9 +59,16 @@ Update apache2 conf
 Setup source
 	Clone project
 	
-	Make media folder:
+	Make media directory:
 		mkdir media
 		chmod 775 media
+	Make static directory:
+		mkdir static
+		chmod 775 static
 	Create a symbolic link to admin media:
 		ln -s /usr/local/lib/python2.7/dist-packages/django/contrib/admin admin_media
+	Sync database:
+		pythong manage.py syncdb
+	Collect static files:
+		python manage.py collectstatic
 
