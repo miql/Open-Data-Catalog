@@ -15,7 +15,7 @@ class ODPRegistrationForm(RegistrationForm):
                                 error_messages={ 'invalid': "This value must contain only letters" }, required=True)
     organization = forms.CharField(max_length=255, required=False, initial="optional")
     can_notify = forms.BooleanField(required=False, label="", help_text="Would you like to receive e-mail updates regarding OpenDataPhilly?")
-    recaptcha = ReCaptchaField(label="")    
+    #recaptcha = ReCaptchaField(label="")    
 
 class ODPBackend(DefaultBackend):
 
