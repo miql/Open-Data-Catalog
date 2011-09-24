@@ -4,7 +4,7 @@ oauth2
 simplejson
 PIL
 pytz
-twitter
+python-twitter
 simplegeo
 django>=1.3
 django-registration
