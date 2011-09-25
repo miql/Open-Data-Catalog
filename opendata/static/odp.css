@@ -1,3 +1,5 @@
+body { font-family: Arial; }
+
 .base_body {
 }
 
@@ -161,7 +163,7 @@ margin-top: -14px;
 
 #center_container {
 	float: left;
-	width: 615px;
+	width: 630px;
 }
 
 #account {
@@ -534,4 +536,23 @@ form .button {
 }
 #footer #footer_copyright {
 	float:right;
+}
+
+/* Stuff to hide, until it's functional */
+
+#home_twitter,
+#home_idea_label,
+#footer_copyright,
+#footer_logo,
+#logo,
+#abouts { display: none !important; }
+
+#tags { margin-top: 100px; }
+#tags h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#tags ul {
+    line-height: 1.5em;
 }
