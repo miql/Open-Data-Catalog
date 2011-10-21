@@ -20,11 +20,11 @@ def list_all(request):
                     voted = s.rating.get_rating_for_user(user=user, ip_address=request.META['REMOTE_ADDR'])
                     if not voted:
                         suggestions = suggestions.exclude(pk=s.id)
-            if f == 'done':                  
+            if f == 'done':
                 suggestions = suggestions.exclude(completed=False)
-                
+
         except:
-            pass    
+            pass
 
     form = SuggestionForm()
     return render_to_response('suggestions/list.html', {'suggestions': suggestions, 'form': form}, context_instance=RequestContext(request))
@@ -38,12 +38,12 @@ def add_suggestion(request):
             sug = Suggestion()
             sug.suggested_by = request.user
             sug.text = request.POST.get('text')
-            
-            sug.save()            
+
+            sug.save()
             sug.rating.add(score=1, user=request.user, ip_address=request.META['REMOTE_ADDR'])
-            
+
             return HttpResponseRedirect('../?sort=suggested_date&dir=desc&filter=mine')
-    else: 
+    else:
         form = SuggestionForm()
 
     suggestions = Suggestion.objects.order_by("rating_score")
@@ -58,7 +58,7 @@ def add_vote(request, suggestion_id):
     return HttpResponseRedirect('../../')
 
 @login_required
-def remove_vote(request, suggestion_id):    
+def remove_vote(request, suggestion_id):
     suggestion = Suggestion.objects.get(pk=suggestion_id)
     suggestion.rating.delete(request.user, request.META['REMOTE_ADDR'])
     return HttpResponseRedirect('../../')

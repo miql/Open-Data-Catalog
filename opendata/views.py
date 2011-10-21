@@ -28,7 +28,7 @@ def home(request):
     utc = pytz.utc
     local = timezone('US/Eastern')
 
-    if not tweets:    
+    if not tweets:
         tweets = twitter.Api().GetUserTimeline( settings.TWITTER_USER )[:4]
         if tweets.count < 4:
             tweet_cache = []
@@ -44,11 +44,11 @@ def home(request):
                 t = TwitterCache(text=tweet.AsJsonString())
                 t.save()
             cache.set( 'tweets', tweets, settings.TWITTER_TIMEOUT )
-    
+
     recent = Resource.objects.order_by("-created")[:3]
     idea = Idea.objects.order_by("-created_by_date")[:4]
     if idea.count() > 0:
-        ct = idea.count() - 1     
+        ct = idea.count() - 1
         ran = random.randint(0, ct)
         return render_to_response('home.html', {'recent': recent, 'idea': idea[ran], 'tweets': tweets},  context_instance=RequestContext(request))
     return render_to_response('home.html', {'recent': recent, 'idea': idea, 'tweets': tweets},  context_instance=RequestContext(request))
@@ -69,7 +69,7 @@ def tag_results(request, tag_id):
     if 'filter' in request.GET:
         f = request.GET['filter']
         tag_resources = tag_resources.filter(url__url_type__url_type__icontains=f).distinct()
-    
+
     return render_to_response('results.html', {'results': tag_resources, 'tag': tag}, context_instance=RequestContext(request))
 
 def search_results(request):
@@ -80,25 +80,25 @@ def search_results(request):
     if 'filter' in request.GET:
         f = request.GET['filter']
         search_resources = search_resources.filter(url__url_type__url_type__iexact=f).distinct()
-    
+
     return render_to_response('results.html', {'results': search_resources}, context_instance=RequestContext(request))
 
 def resource_details(request, resource_id, slug=""):
     resource = Resource.objects.get(pk=resource_id)
-    return render_to_response('details.html', {'resource': resource}, context_instance=RequestContext(request)) 
-    
+    return render_to_response('details.html', {'resource': resource}, context_instance=RequestContext(request))
+
 
 def idea_results(request, idea_id=None, slug=""):
     if idea_id:
         idea = Idea.objects.get(pk=idea_id)
-        return render_to_response('idea_details.html', {'idea': idea}, context_instance=RequestContext(request)) 
-    
+        return render_to_response('idea_details.html', {'idea': idea}, context_instance=RequestContext(request))
+
     ideas = Idea.objects.order_by("-created_by_date")
-    return render_to_response('ideas.html', {'ideas': ideas}, context_instance=RequestContext(request)) 
+    return render_to_response('ideas.html', {'ideas': ideas}, context_instance=RequestContext(request))
 
 def feed_list(request):
     tags = Tag.objects.all()
-    return render_to_response('feeds/list.html', {'tags': tags}, context_instance=RequestContext(request)) 
+    return render_to_response('feeds/list.html', {'tags': tags}, context_instance=RequestContext(request))
 
 @login_required
 def suggest_content(request):
@@ -106,7 +106,7 @@ def suggest_content(request):
         form = SubmissionForm(request.POST)
         if form.is_valid():
             #do something
-            
+
             coords, types, formats, updates ="", "", "", ""
             for c in request.POST.getlist("coord_system"):
                 coords = coords + " EPSG:" + CoordSystem.objects.get(pk=c).EPSG_code.__str__()
@@ -117,7 +117,7 @@ def suggest_content(request):
             for u in request.POST.getlist("update_frequency"):
                 if u:
                     updates = updates + " " + UpdateFrequency.objects.get(pk=u).update_frequency
-                
+
             data = {
                 "submitter": request.user.username,
                 "submit_date": datetime.now(),
@@ -140,8 +140,8 @@ def suggest_content(request):
                 "intended_audience": request.POST.get("intended_audience"),
                 "why": request.POST.get("why"),
             }
-            
-            
+
+
             subject, user_email = 'Phoenix Data Catalog - Data Submission', (request.user.first_name + " " + request.user.last_name, request.user.email)
             text_content = render_to_string('submit_email.txt', data)
             text_content_copy = render_to_string('submit_email_copy.txt', data)
@@ -149,21 +149,21 @@ def suggest_content(request):
 
             msg = EmailMessage(subject, text_content_copy, to=user_email)
             msg.send()
-            
+
             sug_object = Submission()
             sug_object.user = request.user
             sug_object.email_text = text_content
-            
+
             sug_object.save()
-            
+
             return render_to_response('thanks.html', context_instance=RequestContext(request))
-    else: 
+    else:
         form = SubmissionForm()
-        
+
     return render_to_response('submit.html', {'form': form}, context_instance=RequestContext(request))
 
 
 ## views called by js ajax for object lists
 def get_tag_list(request):
     tags = Tag.objects.all()
-    return HttpResponse(serializers.serialize("json", tags)) 
+    return HttpResponse(serializers.serialize("json", tags))

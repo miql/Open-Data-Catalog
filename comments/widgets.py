@@ -52,4 +52,3 @@ class StarsRadioFieldRenderer(StrAndUnicode):
         """Outputs a <ul> for this set of radio fields."""
         return mark_safe(u'\n%s\n' % u'\n'.join([u'%s'
                 % force_unicode(w) for w in self]))
-    
