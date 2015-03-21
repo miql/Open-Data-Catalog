@@ -13,7 +13,7 @@ RATING_CHOICES = (
 
 class CommentFormWithRating(CommentForm):
     rating = forms.CharField(widget=forms.RadioSelect(renderer=StarsRadioFieldRenderer, attrs={'class':'star'}, choices=RATING_CHOICES))
-    
+
     def get_comment_model(self):
         # Use our custom comment model instead of the built-in one.
         return CommentWithRating
@@ -23,4 +23,4 @@ class CommentFormWithRating(CommentForm):
         data = super(CommentFormWithRating, self).get_comment_create_data()
         data['rating'] = self.cleaned_data['rating']
         return data
-        
+

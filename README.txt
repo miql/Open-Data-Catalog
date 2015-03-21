@@ -4,7 +4,7 @@ Recommended stack:
     Python 2.6+
     PostgreSQL 8.4
     Django 1.3
-    
+
 Dependancies from aptitide:
     git libapache2-mod-wsgi sendmail postgresql-8.4
 
@@ -19,7 +19,7 @@ Python dependencies:
     then install:
         pip install dbfpy-2.2.5.tar.gz
 
-	
+
 Update apache2 conf
 	/etc/apache2/sites-available/default add >
 		WSGIScriptAlias /hidden /<project location>/odp.wsgi
@@ -47,11 +47,11 @@ Update apache2 conf
 		import django.core.handlers.wsgi
 
 		application = django.core.handlers.wsgi.WSGIHandler()
-		
-		
+
+
 Setup source
 	Clone project
-	
+
 	Make media directory:
 		mkdir media
 		chmod 775 media

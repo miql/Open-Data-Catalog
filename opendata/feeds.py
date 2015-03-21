@@ -33,7 +33,7 @@ class ResourcesFeed(BaseResourceFeed):
 
     def items(self):
         return Resource.objects.order_by('-created')
-    
+
 class UpdatesFeed(BaseResourceFeed):
     title = "Phoenix Data Catalog: Resources - Last Updated"
     link = "/feeds/updates/"
@@ -43,7 +43,7 @@ class UpdatesFeed(BaseResourceFeed):
 
     def items(self):
         return Resource.objects.order_by('-last_updated')
-    
+
 class IdeasFeed(Feed):
     title = "Phoenix Data Catalog: Ideas"
     link = "/feeds/ideas/"
@@ -64,7 +64,7 @@ class IdeasFeed(Feed):
 
 class TagFeed(BaseResourceFeed):
     description_template = "feeds/resource.html"
-    
+
     def get_object(self, request, tag_id):
         return get_object_or_404(Tag, pk=tag_id)
     def title(self, obj):
@@ -76,4 +76,4 @@ class TagFeed(BaseResourceFeed):
 
     def items(self, obj):
         return Resource.objects.filter(tags=obj).order_by('-created')
-   
+
